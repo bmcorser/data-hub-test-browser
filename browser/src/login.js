@@ -1,4 +1,3 @@
-var require = patchRequire(require);
 var env = require('system').env;
 
 var login = function (casper) {
