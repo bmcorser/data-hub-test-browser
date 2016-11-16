@@ -27,7 +27,7 @@ var login = function (casper) {
   ).then(function () {
     this.waitForSelector( '#Content',
       function () {
-        casper.echo('Logged in');
+        casper.open(env.CDMS_BASE_URL + '/main.aspx')
       },
       function () { login(casper); },
       1000

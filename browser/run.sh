@@ -32,7 +32,11 @@ docker run -d \
 
 # Run test suite
 docker exec casperjs \
-    casperjs test --engine=slimerjs --xunit=/results.xml /src/tests
+    casperjs test \
+   --engine=slimerjs \
+   --xunit=/results.xml \
+   --includes=/src/config.js \
+   /src/tests
 
 # Determine if the suites passed or failed
 docker exec casperjs python /src/xunit.py
