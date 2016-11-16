@@ -1,7 +1,5 @@
 #!/bin/bash
 
-EXIT_CODE=0
-
 # Unconditionally drop container on exit
 trap "docker rm -f casperjs" EXIT
 
@@ -35,6 +33,10 @@ docker run -d \
 # Run test suite
 docker exec casperjs \
     casperjs test --engine=slimerjs --xunit=/results.xml /src/tests
+
+# Determine if the suites passed or failed
+docker exec casperjs python /src/xunit.py
+EXIT_CODE=$?
 
 # Copy results out
 docker cp casperjs:/results.xml results.xml
