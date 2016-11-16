@@ -31,7 +31,7 @@ docker run -d \
 
 # Run test suite
 docker exec casperjs \
-    casperjs test --engine=slimerjs --xunit=/results.xml /src/tests/test-login.js
+    casperjs test --engine=slimerjs --xunit=/results.xml /src/tests
 
 # Copy results out
 docker cp casperjs:/results.xml results.xml
