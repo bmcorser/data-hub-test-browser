@@ -1,4 +1,6 @@
+var require = patchRequire(require);
 var env = require('system').env;
+
 var login = function (casper) {
   casper.thenOpen(env.CDMS_BASE_URL)
   casper.waitForSelector(
