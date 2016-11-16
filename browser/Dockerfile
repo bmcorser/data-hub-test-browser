@@ -13,3 +13,5 @@ RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys EEA14886; \
 # Undo xvfb-run from base container (want to see)
 RUN ln -sf /srv/var/slimerjs/slimerjs /usr/bin/slimerjs
 RUN ln -sf /srv/var/casperjs/bin/casperjs /usr/bin/casperjs
+
+ADD src /src
