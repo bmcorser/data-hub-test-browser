@@ -8,7 +8,10 @@ trap "docker rm -f casperjs" EXIT
 # Steal docker-compose .env
 while read -r line
 do
-    export $line
+    if [ $line ]
+    then
+        export $line
+    fi
 done < ../../.env
 
 # Grab local IP to connect X server
