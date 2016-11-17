@@ -1,10 +1,3 @@
-# slimerjs
-#
-# Usage
-#   docker run cmfatih/slimerjs /usr/bin/slimerjs -v
-#   docker run -v `pwd`:/scripts cmfatih/slimerjs /usr/bin/slimerjs /scripts/test.js
-#   docker run -v `pwd`:/scripts cmfatih/slimerjs /usr/bin/casperjs /scripts/test-casperjs.js
-
 FROM ubuntu:14.04
 
 # Env
@@ -40,8 +33,12 @@ RUN rm -rf /var/lib/apt/lists/*
 RUN ln -sf /srv/var/slimerjs/slimerjs /usr/bin/slimerjs
 RUN ln -sf /srv/var/casperjs/bin/casperjs /usr/bin/casperjs
 
+RUN apt-get update
+RUN apt-get install -y httpie tree
+
 CMD ["/usr/bin/slimerjs"]
 
 ADD src /src
+ADD run-inner.sh /src/run-inner.sh
 
-WORKDIR /src/tests
+WORKDIR /src

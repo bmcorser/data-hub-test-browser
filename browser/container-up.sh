@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# Unconditionally drop container on exit
-trap "docker rm -f casperjs" EXIT
-
 # Steal docker-compose .env
 while read -r line
 do
@@ -16,8 +13,7 @@ done < ../../.env
 LOCAL_IP=$(ifconfig en0 | grep inet | awk '$1=="inet" {print $2}')
 echo Expecting an X server running at $LOCAL_IP
 
-# Build casperjs container
-docker build . -t casperjs
+make container-build
 
 # Bring container up (with no command)
 docker run -d \
@@ -26,23 +22,7 @@ docker run -d \
     -e CDMS_BASE_URL=$CDMS_BASE_URL \
     -e CDMS_USERNAME=$CDMS_USERNAME \
     -e CDMS_PASSWORD=$CDMS_PASSWORD \
+    -e DELETER_PORT=$DELETER_PORT \
     --name casperjs \
     casperjs \
     tail -f /dev/null
-
-# Run test suite
-docker exec casperjs \
-    casperjs test \
-   --engine=slimerjs \
-   --xunit=/results.xml \
-   --includes=/src/config.js \
-   /src/tests
-
-# Determine if the suites passed or failed
-docker exec casperjs python /src/xunit.py
-EXIT_CODE=$?
-
-# Copy results out
-docker cp casperjs:/results.xml results.xml
-
-exit $EXIT_CODE
